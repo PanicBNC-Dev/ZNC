@@ -21,4 +21,3 @@
 #include "framework/znctest.cpp"
 #include "tests/core.cpp"
 #include "tests/modules.cpp"
-#include "tests/scripting.cpp"

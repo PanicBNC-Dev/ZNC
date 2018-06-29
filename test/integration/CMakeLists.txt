@@ -38,7 +38,6 @@ add_executable(inttest
 	"framework/znctest.cpp"
 	"tests/core.cpp"
 	"tests/modules.cpp"
-	"tests/scripting.cpp"
 	"${GTEST_ROOT}/src/gtest-all.cc"
 	"${GMOCK_ROOT}/src/gmock-all.cc")
 

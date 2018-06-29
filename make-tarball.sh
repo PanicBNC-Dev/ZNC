@@ -29,7 +29,7 @@ else
 		exit -1
 	fi
 
-	ZNCDIR=znc-$VERSION
+	ZNCDIR=panicbnc-$VERSION
 	TARGZ=$ZNCDIR.tar.gz
 	SIGN=1
 	DESC=""
@@ -44,14 +44,12 @@ mkdir -p --mode=0755 $TMPDIR/$ZNCDIR/third_party/Csocket
 cp -p third_party/Csocket/Csocket.cc third_party/Csocket/Csocket.h $TMPDIR/$ZNCDIR/third_party/Csocket/
 (
 	cd $TMPDIR2
-	cmake $TMPDIR/$ZNCDIR -DWANT_PERL=yes -DWANT_PYTHON=yes
-	make modperl_dist modpython_dist
+	cmake $TMPDIR/$ZNCDIR
 )
 (
 	cd $TMPDIR/$ZNCDIR
 	AUTOMAKE_FLAGS="--add-missing --copy" ./autogen.sh
 	rm -r autom4te.cache/
-	rm -rf .travis* .appveyor* .ci/
 	rm make-tarball.sh
 	# For autoconf
 	sed -e "s/THIS_IS_NOT_TARBALL//" -i Makefile.in
@@ -65,12 +63,7 @@ cp -p third_party/Csocket/Csocket.cc third_party/Csocket/Csocket.h $TMPDIR/$ZNCD
 (
 	cd $TMPDIR
 	echo "Creating tarball"
-	env GZIP=-9 tar -czf $TARGZ $ZNCDIR
+	env GZIP=-9 tar -czf $TARGZ $ZNCDIR	
 )
 echo "Done"
 
-if [ $SIGN = 1 ]; then
-	echo "Signing $TARGZ..."
-	gpg --detach-sig $TARGZ
-	echo "Created $TARGZ and $TARGZ.sig"
-fi
