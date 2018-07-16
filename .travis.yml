@@ -1,0 +1,38 @@
+language: cpp
+dist: trusty
+
+addons:
+    apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        - sourceline: 'ppa:george-edison55/cmake-3.x'
+        - sourceline: 'ppa:beineri/opt-qt551-trusty'
+        
+        packages:
+        - libsasl2-dev 
+        - libssl-dev 
+        - build-essential 
+        - pkg-config 
+        - libicu-dev 
+        - libgtest-dev 
+        - libicu-dev 
+        - g++
+        - cmake
+        - qt55base
+
+
+before_install:
+      - source /opt/qt55/bin/qt55-env.sh
+      - git submodule update --init --recursive
+      - ./configure.sh --prefix=$HOME/bnc
+
+install:
+      - make
+      - make install
+
+script:
+      - make VERBOSE=1 inttest
+
+notification:
+      email:
+            - chris@christyrrel.me

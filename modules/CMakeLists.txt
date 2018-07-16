@@ -47,12 +47,6 @@ function(add_cxx_module mod modpath)
 		LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/znc")
 endfunction()
 
-function(add_perl_module mod modpath)
-endfunction()
-
-function(add_python_module mod modpath)
-endfunction()
-
 if(CYRUS_FOUND)
 	set(modcompile_cyrusauth PRIVATE ${CYRUS_CFLAGS})
 	set(modlink_cyrusauth ${CYRUS_LDFLAGS})
@@ -88,6 +82,11 @@ foreach(modpath ${all_modules})
 		endif()
 	endif()
 
+	if(modenabled)
+		if(modtype STREQUAL "cpp")
+			add_cxx_module("${mod}" "${modpath}")
+		endif()
+	endif()
 endforeach()
 
 if(HAVE_I18N)

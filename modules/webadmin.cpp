@@ -249,8 +249,10 @@ class CWebAdminMod : public CModule {
             pNewUser->SetStatusPrefix(sArg);
         }
         sArg = WebSock.GetParam("ident");
-        if (!sArg.empty()) {
-            pNewUser->SetIdent(sArg);
+        if (spSession->IsAdmin() || spSession->IsPremium()) {
+            if (!sArg.empty()) {
+                pNewUser->SetIdent(sArg);
+            }
         }
         sArg = WebSock.GetParam("realname");
         if (!sArg.empty()) {
@@ -512,6 +514,11 @@ class CWebAdminMod : public CModule {
             if (!spSession->IsAdmin() &&
                 (!spSession->GetUser() || spSession->GetUser() != pUser)) {
                 return false;
+            }
+
+            if (!spSession->IsAdmin()) {
+                WebSock.PrintErrorPage("Only administrators may add networks.");
+                return true;
             }
 
             if (pUser) {
@@ -1103,7 +1110,9 @@ class CWebAdminMod : public CModule {
 
         pNetwork->SetNick(WebSock.GetParam("nick"));
         pNetwork->SetAltNick(WebSock.GetParam("altnick"));
-        pNetwork->SetIdent(WebSock.GetParam("ident"));
+        if (spSession->IsAdmin() || spSession->IsPremium()) {
+            pNetwork->SetIdent(WebSock.GetParam("ident"));
+        }
         pNetwork->SetRealName(WebSock.GetParam("realname"));
 
         pNetwork->SetQuitMsg(WebSock.GetParam("quitmsg"));
@@ -1148,10 +1157,12 @@ class CWebAdminMod : public CModule {
 
         VCString vsArgs;
 
-        pNetwork->DelServers();
-        WebSock.GetRawParam("servers").Split("\n", vsArgs);
-        for (const CString& sServer : vsArgs) {
-            pNetwork->AddServer(sServer.Trim_n());
+        if (spSession->IsAdmin()) {
+            pNetwork->DelServers();
+            WebSock.GetRawParam("servers").Split("\n", vsArgs);
+            for (const CString& sServer : vsArgs) {
+                pNetwork->AddServer(sServer.Trim_n());
+            }
         }
 
         WebSock.GetRawParam("fingerprints").Split("\n", vsArgs);
@@ -1248,6 +1259,7 @@ class CWebAdminMod : public CModule {
 
     bool DelNetwork(CWebSock& WebSock, CUser* pUser, CTemplate& Tmpl) {
         CString sNetwork = WebSock.GetParam("name");
+        std::shared_ptr<CWebSession> spSession = WebSock.GetSession();        
         if (sNetwork.empty() && !WebSock.IsPost()) {
             sNetwork = WebSock.GetParam("name", false);
         }
@@ -1260,6 +1272,11 @@ class CWebAdminMod : public CModule {
         if (sNetwork.empty()) {
             WebSock.PrintErrorPage(
                 t_s("That network doesn't exist for this user"));
+            return true;
+        }
+
+        if (!spSession->IsAdmin()) {
+            WebSock.PrintErrorPage(t_s("Due to session limitations, only staff may add or remove networks."));
             return true;
         }
 

@@ -168,6 +168,47 @@ TEST_F(ZNCTest, AutoAttachModule) {
     client.ReadUntil("hello");
 }
 
+TEST_F(ZNCTest, PanicBNCPremium) {
+    auto znc = Run();
+    auto ircd = ConnectIRCd();
+    auto client = LoginClient();
+
+    client.Write("PRIVMSG *controlpanel :adduser user1 hunter2");
+    client.Write("PRIVMSG *controlpanel :addnetwork user1 test");
+    
+    auto client1 = ConnectClient();
+    client1.Write("PASS :hunter2");
+    client1.Write("NICK nick");
+    client1.Write("USER user1@identifier/test x x :x");
+    client1.Write("ZNC Addserver");
+    client1.ReadUntil("Access denied");
+    client1.Write("ZNC Addnetwork");
+    client1.ReadUntil("Access denied");
+
+    client1.Write("ZNC loadmod controlpanel");
+    client1.Write("PRIVMSG *controlpanel :get premium");
+    client1.Write("PRIVMSG *controlpanel :set ident $me ident");
+    client1.ReadUntil("Access denied!");
+    client1.Write("PRIVMSG *controlpanel :setnetwork ident $me $network ident");
+    client1.ReadUntil("Access denied!");
+    client1.Write("PRIVMSG *controlpanel :set premium $me true");
+    client1.ReadUntil("Access denied!");
+
+    client1.Write("PRIVMSG *controlpanel :Addserver");
+    client1.ReadUntil("Access denied!");
+    client1.Write("PRIVMSG *controlpanel :Addnetwork");
+    client1.ReadUntil("Access denied!");
+
+    client.Write("PRIVMSG *controlpanel :set premium user1 true");
+    client.ReadUntil("Premium = true");
+
+    client1.Write("PRIVMSG *controlpanel :set ident $me ident");
+    client1.ReadUntil("Ident = ident");
+    client1.Write("PRIVMSG *controlpanel :setnetwork ident $me $network ident");
+    client1.ReadUntil("Ident = ident");    
+   
+}
+
 TEST_F(ZNCTest, KeepNickModule) {
     auto znc = Run();
     auto ircd = ConnectIRCd();

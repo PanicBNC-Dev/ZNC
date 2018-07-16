@@ -58,6 +58,7 @@ class CWebSession {
     time_t GetLastActive() const { return m_tmLastActive; }
     bool IsLoggedIn() const { return m_pUser != nullptr; }
     bool IsAdmin() const;
+    bool IsPremium() const;
     void UpdateLastActive();
 
     CUser* SetUser(CUser* p) {

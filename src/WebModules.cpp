@@ -117,6 +117,7 @@ CWebSession::CWebSession(const CString& sId, const CString& sIP)
 void CWebSession::UpdateLastActive() { time(&m_tmLastActive); }
 
 bool CWebSession::IsAdmin() const { return IsLoggedIn() && m_pUser->IsAdmin(); }
+bool CWebSession::IsPremium() const { return IsLoggedIn() && m_pUser->IsPremium(); }
 
 CWebAuth::CWebAuth(CWebSock* pWebSock, const CString& sUsername,
                    const CString& sPassword, bool bBasic)

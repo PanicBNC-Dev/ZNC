@@ -93,6 +93,7 @@ class CAdminMod : public CModule {
                 {"MultiClients", boolean},
                 {"DenyLoadMod", boolean},
                 {"DenySetBindHost", boolean},
+                {"Premium", boolean},
                 {"DefaultChanModes", str},
                 {"QuitMsg", str},
                 {"ChanBufferSize", integer},
@@ -218,85 +219,88 @@ class CAdminMod : public CModule {
 
         if (!pUser) return;
 
-        if (sVar == "nick")
+        if (sVar == "nick") {
             PutModule("Nick = " + pUser->GetNick());
-        else if (sVar == "altnick")
+        } else if (sVar == "altnick") {
             PutModule("AltNick = " + pUser->GetAltNick());
-        else if (sVar == "ident")
+        } else if (sVar == "ident") {
             PutModule("Ident = " + pUser->GetIdent());
-        else if (sVar == "realname")
+        } else if (sVar == "realname") {
             PutModule("RealName = " + pUser->GetRealName());
-        else if (sVar == "bindhost")
+        } else if (sVar == "bindhost") {
             PutModule("BindHost = " + pUser->GetBindHost());
-        else if (sVar == "multiclients")
+        } else if (sVar == "multiclients") {
             PutModule("MultiClients = " + CString(pUser->MultiClients()));
-        else if (sVar == "denyloadmod")
+        } else if (sVar == "denyloadmod") {
             PutModule("DenyLoadMod = " + CString(pUser->DenyLoadMod()));
-        else if (sVar == "denysetbindhost")
+        } else if (sVar == "denysetbindhost") {
             PutModule("DenySetBindHost = " + CString(pUser->DenySetBindHost()));
-        else if (sVar == "defaultchanmodes")
+        } else if (sVar == "defaultchanmodes") {
             PutModule("DefaultChanModes = " + pUser->GetDefaultChanModes());
-        else if (sVar == "quitmsg")
+        } else if (sVar == "quitmsg") {
             PutModule("QuitMsg = " + pUser->GetQuitMsg());
-        else if (sVar == "buffercount")
+        } else if (sVar == "buffercount") {
             PutModule("BufferCount = " + CString(pUser->GetBufferCount()));
-        else if (sVar == "chanbuffersize")
+        } else if (sVar == "chanbuffersize") {
             PutModule("ChanBufferSize = " +
                       CString(pUser->GetChanBufferSize()));
-        else if (sVar == "querybuffersize")
+        } else if (sVar == "querybuffersize") {
             PutModule("QueryBufferSize = " +
                       CString(pUser->GetQueryBufferSize()));
-        else if (sVar == "keepbuffer")
+        } else if (sVar == "keepbuffer") {
             // XXX compatibility crap, added in 0.207
             PutModule("KeepBuffer = " + CString(!pUser->AutoClearChanBuffer()));
-        else if (sVar == "autoclearchanbuffer")
+        } else if (sVar == "autoclearchanbuffer") {
             PutModule("AutoClearChanBuffer = " +
                       CString(pUser->AutoClearChanBuffer()));
-        else if (sVar == "autoclearquerybuffer")
+        } else if (sVar == "autoclearquerybuffer") {
             PutModule("AutoClearQueryBuffer = " +
                       CString(pUser->AutoClearQueryBuffer()));
-        else if (sVar == "maxjoins")
+        } else if (sVar == "maxjoins") {
             PutModule("MaxJoins = " + CString(pUser->MaxJoins()));
-        else if (sVar == "notraffictimeout")
+        } else if (sVar == "notraffictimeout") {
             PutModule("NoTrafficTimeout = " +
                       CString(pUser->GetNoTrafficTimeout()));
-        else if (sVar == "maxnetworks")
+        } else if (sVar == "maxnetworks") {
             PutModule("MaxNetworks = " + CString(pUser->MaxNetworks()));
-        else if (sVar == "maxquerybuffers")
+        } else if (sVar == "maxquerybuffers") {
             PutModule("MaxQueryBuffers = " + CString(pUser->MaxQueryBuffers()));
-        else if (sVar == "jointries")
+        } else if (sVar == "jointries") {
             PutModule("JoinTries = " + CString(pUser->JoinTries()));
-        else if (sVar == "timezone")
+        } else if (sVar == "timezone") {
             PutModule("Timezone = " + pUser->GetTimezone());
-        else if (sVar == "appendtimestamp")
+        } else if (sVar == "appendtimestamp") {
             PutModule("AppendTimestamp = " +
                       CString(pUser->GetTimestampAppend()));
-        else if (sVar == "prependtimestamp")
+        } else if (sVar == "prependtimestamp") {
             PutModule("PrependTimestamp = " +
                       CString(pUser->GetTimestampPrepend()));
-        else if (sVar == "authonlyviamodule")
+        } else if (sVar == "authonlyviamodule") {
             PutModule("AuthOnlyViaModule = " +
                       CString(pUser->AuthOnlyViaModule()));
-        else if (sVar == "timestampformat")
+        } else if (sVar == "timestampformat") {
             PutModule("TimestampFormat = " + pUser->GetTimestampFormat());
-        else if (sVar == "dccbindhost")
+        } else if (sVar == "dccbindhost") {
             PutModule("DCCBindHost = " + CString(pUser->GetDCCBindHost()));
-        else if (sVar == "admin")
+        } else if (sVar == "admin") {
             PutModule("Admin = " + CString(pUser->IsAdmin()));
-        else if (sVar == "statusprefix")
+        } else if (sVar == "statusprefix") {
             PutModule("StatusPrefix = " + pUser->GetStatusPrefix());
 #ifdef HAVE_I18N
-        else if (sVar == "language")
+        } else if (sVar == "language") {
             PutModule("Language = " + (pUser->GetLanguage().empty()
                                            ? "en"
                                            : pUser->GetLanguage()));
 #endif
 #ifdef HAVE_ICU
-        else if (sVar == "clientencoding")
+        } else if (sVar == "clientencoding") {
             PutModule("ClientEncoding = " + pUser->GetClientEncoding());
 #endif
-        else
+        } else if (sVar == "premium") {
+            PutModule("Premium = " + CString(pUser->IsPremium()));
+        } else {
             PutModule(t_s("Error: Unknown variable"));
+        }
     }
 
     void Set(const CString& sLine) {
@@ -319,8 +323,12 @@ class CAdminMod : public CModule {
             pUser->SetAltNick(sValue);
             PutModule("AltNick = " + sValue);
         } else if (sVar == "ident") {
-            pUser->SetIdent(sValue);
-            PutModule("Ident = " + sValue);
+            if (GetUser()->IsAdmin() || GetUser()->IsPremium()) {
+                pUser->SetIdent(sValue);
+                PutModule("Ident = " + pUser->GetIdent());
+            } else {
+                PutModule(t_s("Access denied!"));
+            }
         } else if (sVar == "realname") {
             pUser->SetRealName(sValue);
             PutModule("RealName = " + sValue);
@@ -435,6 +443,14 @@ class CAdminMod : public CModule {
                 bool b = sValue.ToBool();
                 pUser->SetAdmin(b);
                 PutModule("Admin = " + CString(pUser->IsAdmin()));
+            } else {
+                PutModule(t_s("Access denied!"));
+            }
+        } else if (sVar == "premium") {
+            if (GetUser()->IsAdmin()) {
+                bool b = sValue.ToBool();
+                pUser->SetPremium(b);
+                PutModule("Premium = " + CString(pUser->IsPremium()));
             } else {
                 PutModule(t_s("Access denied!"));
             }
@@ -607,8 +623,12 @@ class CAdminMod : public CModule {
             pNetwork->SetAltNick(sValue);
             PutModule("AltNick = " + pNetwork->GetAltNick());
         } else if (sVar.Equals("ident")) {
-            pNetwork->SetIdent(sValue);
-            PutModule("Ident = " + pNetwork->GetIdent());
+            if (GetUser()->IsAdmin() || GetUser()->IsPremium()) {
+                pNetwork->SetIdent(sValue);
+                PutModule("Ident = " + pNetwork->GetIdent());
+            } else {
+                PutModule(t_s("Access denied!"));
+            }
         } else if (sVar.Equals("realname")) {
             pNetwork->SetRealName(sValue);
             PutModule("RealName = " + pNetwork->GetRealName());
@@ -1022,6 +1042,11 @@ class CAdminMod : public CModule {
         CString sNetwork = sLine.Token(2);
         CUser* pUser = GetUser();
 
+        if (!GetUser()->IsAdmin()) {
+            PutModule(t_s("Access denied!"));
+            return;
+        }
+
         if (sNetwork.empty()) {
             sNetwork = sUser;
         } else {
@@ -1145,6 +1170,11 @@ class CAdminMod : public CModule {
     }
 
     void AddServer(const CString& sLine) {
+        if (!GetUser()->IsAdmin()) {
+            PutModule(t_s("Access denied!"));
+            return;
+        }
+
         CString sUsername = sLine.Token(1);
         CString sNetwork = sLine.Token(2);
         CString sServer = sLine.Token(3, true);
@@ -1174,6 +1204,7 @@ class CAdminMod : public CModule {
     }
 
     void DelServer(const CString& sLine) {
+                
         CString sUsername = sLine.Token(1);
         CString sNetwork = sLine.Token(2);
         CString sServer = sLine.Token(3, true);
