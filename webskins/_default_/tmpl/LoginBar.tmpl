@@ -1,15 +1,53 @@
-<? I18N znc ?>
-				<? IF LoggedIn ?>
-				<span class="logoutbox"><a href="<? VAR URIPrefix TOP ?>/logout"><? FORMAT "Logout" ?></a></span>
-				<? ELSE IF !ModName && PageName == "login" ?>
-				<span class="logoutbox">&nbsp;</span>
-				<? ELSE ?>
-				<form action="<? VAR URIPrefix TOP ?>/login" method="post">
-					<div class="loginbox">
-						<input type="hidden" name="submitted" value="1" />
-						<label for="user">User:</label><input id="user" type="text" name="user" />
-						<label for="pass">Pass:</label><input id="pass" type="password" name="pass" />
-						<input type="submit" class="submit" value="Login" />
-					</div>
-				</form>
-				<? ENDIF ?>
+<? IF !LoggedIn ?>
+
+    <div class="center-block logig-form">
+        <div class="panel panel-primary">
+            <div class="panel-heading">BNC Panel</div>
+            <div class="panel-body">
+			<form role="form" action="<? VAR URIPrefix TOP ?>/login" method="post">
+			<div class="form-group">
+                        	<div class="input-group login-input">
+                            		<span class="input-group-addon"><i class="fa fa-user"></i></span>
+					<input type="text" class="form-control input-lg" id="inputUsername" name="user" required="required" placeholder="Username" autocomplete="off">
+				</div>
+                        	<br>
+                        	<div class="input-group login-input">
+                            		<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+					<input type="password" class="form-control input-lg" id="inputPassword" name="pass" required="required" placeholder="Password" autocomplete="off">
+				</div>
+                        <div class="checkbox">
+                            <label>
+
+                            </label>
+                        </div>
+				<button type="submit" class="btn brn-ar btn-primary pull-right" name="submitted" value="1"><i class="fa fa-sign-in"></i> Sign In</button>
+                        <a href="https://PanicBNC.net/ToS" target="_blank" class="btn btn-ar git animated fadeInDown animation-delay-2">Terms of Service</a>
+                        <hr class="dotted margin-10">
+                        <a href="https://PanicBNC.net/Request" target="_blank" class="btn btn-ar btn-success pull-right">Create Account</a>
+                        <button class="btn btn-ar btn-warning" data-toggle="modal" data-target="#reset">Password Recovery</button>
+                        <div class="clearfix"></div>
+			</div>
+			</form>
+		</div>
+        </div>
+						</div>
+
+
+ 
+<!-- Modal -->
+<div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Password Recovery</h4>
+    </div>
+    <div class="modal-body">
+<p>To reset your password please join <a href="irc://irc.esper.net/PanicBNC">#PanicBNC @ irc.esper.net</a> (<a href="https://webchat.esper.net/?nick=PanicUser...&channels=panicbnc">click here for webclient</a>) do !reset and follow the instructions the bot gives you if you have any issues please ask in channel or email us at <a href="mailto:Support@PanicBNC.net">Support@PanicBNC.net</a>.
+    </div>
+    <div class="modal-footer">
+    </div>
+</div>
+</div>
+</div>
+<? ENDIF ?>

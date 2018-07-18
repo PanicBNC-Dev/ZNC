@@ -1,0 +1,163 @@
+<? INC DocType.tmpl ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/preload.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/bootstrap.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/font-awesome.min.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/animate.min.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/slidebars.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/lightbox.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/jquery.bxslider.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/shcore.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/style-green5.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/width-boxed.css ?>
+<? ADDROW CSSLoop HREF=/skinfiles/_default_/css/buttons.css ?>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/html5shiv.min.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/respond.min.js ?>
+    <![endif]-->
+<!-- Scripts -->
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/jquery.min.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/jquery.cookie.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/bootstrap.min.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/wow.min.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/slidebars.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/jquery.bxslider.min.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/holder.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/buttons.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/styleswitcher.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/jquery.mixitup.min.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/circles.min.js ?>
+
+<!-- Syntaxhighlighter -->
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/shCore.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/shBrushXml.js ?>
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/shBrushJScript.js ?>
+
+<? ADDROW JSLoop HREF=/skinfiles/_default_/js/app.js ?>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>PanicBNC &mdash; <? VAR Title DEFAULT="Web Frontend" ?></title>
+	<link rel="shortcut icon" href="<? VAR URIPrefix TOP ?>/favicon.ico" type="image/x-icon" />
+	<? LOOP CSSLoop ?>
+	<?IF HREF?><link rel="stylesheet" type="text/css" href="<? VAR URIPrefix TOP ?><? VAR HREF ?>" /><?ENDIF?>
+	<?ENDLOOP?>
+	<? LOOP JSLoop ?>
+	<?IF HREF?><script type="text/javascript" src="<? VAR URIPrefix TOP ?><? VAR HREF ?>"></script><?ENDIF?>
+	<?ENDLOOP?>
+	 <? INC ExtraHeader.tmpl ?>
+	 <script>
+	 	$("#textarea").markdown({autofocus:false,savable:false})
+	 </script>
+</head>
+<!-- Preloader -->
+
+<body>
+	<div id="sb-site">
+<div class="boxed">
+
+<header id="header-full-top" class="hidden-xs header-full">
+    <div class="container">
+        <div class="header-full-title">
+            <h1 class="animated fadeInRight"><a href="/">Panic<span>BNC</span></a></h1>
+            <p class="animated fadeInRight">The Smart Choice</p>
+        </div>
+        <nav class="top-nav">
+            <ul class="top-nav-social hidden-sm">
+                <li><a href="http://News.PanicBNC.net/rss" class="animated fadeIn animation-delay-6 rss"><i class="fa fa-rss"></i></a></li>
+                <li><a href="https://Twitter.com/PanicBNC" class="animated fadeIn animation-delay-7 twitter"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="https://Facebook.Com/PanicBNC" class="animated fadeIn animation-delay-8 facebook"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="https://plus.google.com/share?url=https://PanicBNC.net" class="animated fadeIn animation-delay-9 googleplus"><i class="fa fa-google-plus"></i></a></li>
+            </ul>
+            <ul class="top-nav-social hidden-sm">
+                <li><a href="https://PanicBNCStat.us" class="animated fadeIn animation-delay-10 vine"><i class="fa fa-signal"></i></a></li>
+                <li><a href="https://Chat.PanicBNC.net" class="animated fadeIn animation-delay-11 linkedin"><i class="fa fa-comment"></i></a></li>
+                <li><a href="https://Panel.PanicBNC.net" class="animated fadeIn animation-delay-12 git"><i class="fa fa-cog"></i></a></li>
+            </ul>
+        </nav>
+    </div> <!-- container -->
+</header> <!-- header-full -->
+<nav class="navbar navbar-static-top navbar-default navbar-header-full navbar-dark" role="navigation" id="header">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="/">Panic<span>BNC</span></a>
+        </div> <!-- navbar-header -->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="pull-right">
+            <a href="javascript:void(0);" class="sb-icon-navbar sb-toggle-right"><i class="fa fa-bars"></i></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                        <li><a href="https://PanicBNC.net/">Home</a></li>
+                        <li><a href="https://PanicBNC.net/Premium">Premium</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">About Us</a>
+                     <ul class="dropdown-menu dropdown-menu-left">
+											 <li><a href="https://PanicBNC.net/About-Us#team">Team</a></li>
+											 <li><a href="https://PanicBNC.net/About-Us#donators">Donators</a></li>
+											 <li><a href="https://PanicBNC.net/About-Us#servers">Servers</a></li>
+											 <li><a href="https://PanicBNC.net/About-Us#map">Map</a></li>
+											 <li><a href="/About-Us#software">Software</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Info</a>
+                     <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="https://PanicBNC.net/Clients">Clients</a></li>
+                        <li><a href="https://PanicBNC.net/Vhosts">Vhosts</a></li>
+                        <li><a href="https://PanicBNC.net/Webchat">Webchat</a></li>
+                        <li><a href="https://PanicBNC.net/Terms-of-Service">Terms</a></li>
+                        <li><a href="https://PanicBNC.net/Privacy-Policy">Privacy Policy</a></li>
+                    </ul>
+                </li>
+                        <li><a href="https://PanicBNC.net/Request">Request</a></li>
+                        <li><a href="https://PanicBNC.net/Blacklist">Blacklist</a></li>
+                        <li><a href="https://PanicBNC.net/Contact">Contact</a></li>
+
+             </ul>
+        </div><!-- navbar-collapse -->
+    </div><!-- container -->
+</nav>
+
+<header class="main-header">
+    <div class="container">
+<? INC MessageBar.tmpl ?>
+
+    </div>
+</header>
+				<? IF LoggedIn ?>
+<div class="container">
+        <div class="col-xs-12">
+            <h1 class="right-line no-margin-top">PanicBNC Web Interface</h1>
+        </div>
+</div>
+				<? ENDIF ?>
+	<? INC LoginBar.tmpl ?>
+<div class="container">
+    <div class="row">
+<? INC Navbar.tmpl ?>
+
+
+	        <div class="col-md-9">
+<section class="css-section">
+	<? REM ?>
+		In your subpage (module page or static page) you'll probably want to do something like this...
+			<? INC Header.tmpl ?>
+				This is my <b>super</b> cool sub page!
+			<? INC Footer.tmpl ?>
+		If you'd like to add your own local css file to be included after the global main.css, you can make your own Header.tmpl like so...
+			<? ADDROW CSSLoop HREF=/pub/your_local.css ?>
+			<? ADDROW JSLoop HREF=/pub/your_local.js ?>
+			<? INC BaseHeader.tmpl ?>
+	<? ENDREM ?>

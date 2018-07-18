@@ -1,0 +1,98 @@
+<? IF LoggedIn ?>
+        <div class="col-md-3">
+            <ul class="sidebar-nav animated fadeIn">
+				<li class="topitem<? IF !ModName && PageName == "index" ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?>/"><i class="fa fa-home"></i>  Home</a></li>
+					<? IF GlobalModLoop ?>
+					<li>
+						<a data-toggle="collapse" href="#global" class="collapsed"><i class="fa fa-cog"></i> Global Modules <b class="caret"></b></a>
+							<ul id="global" class="menu-submenu list-unstyled collapse">
+								<? LOOP GlobalModLoop SORTASC=ModName ?>
+									<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="/mods/global/<? VAR ModName ?>"><? VAR Title ?></a></li>
+								<? ENDLOOP ?>
+							</ul>
+					</li>
+					<? ENDIF ?>
+
+					<? IF UserModLoop ?>
+					<li>
+						<a data-toggle="collapse" href="#user" class="collapsed"><i class="fa fa-cog"></i> User Modules <b class="caret"></b></a>
+							<ul id="user" class="menu-submenu list-unstyled collapse">
+								<? LOOP UserModLoop SORTASC=ModName ?>
+									<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+								<? ENDLOOP ?>
+							</ul>
+					</li>
+					<? ENDIF ?>
+
+					<? IF NetworkModLoop ?>
+						<li>
+							<a data-toggle="collapse" href="#network" class="collapsed"><i class="fa fa-cog"></i> Network Modules <b class="caret"></b></a>
+								<ul id="network" class="menu-submenu list-unstyled collapse">
+									<? LOOP NetworkModLoop SORTASC=NetworkName ?>
+										<? IF ModLoop ?>
+											<li class="dropdown-header"><? VAR NetworkName ?></li>
+												<? LOOP ModLoop SORTASC=ModName ?>
+													<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?>"><? VAR Title ?></a></li>
+													<? LOOP SubPageLoop ?>
+													<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+													<? ENDLOOP ?>
+												<? ENDLOOP ?>
+										<? ENDIF ?>
+									<? ENDLOOP ?>
+								</ul>
+						</li>
+					<? ENDIF ?>
+
+				<? IF GlobalModLoop || UserModLoop ?>
+					<li>
+						<a data-toggle="collapse" href="#settings" class="collapsed"><i class="fa fa-wrench"></i> Settings <b class="caret"></b></a>
+							<ul id="settings" class="menu-submenu list-unstyled collapse">
+								<? LOOP UserModLoop SORTASC=ModName ?>
+									<? LOOP SubPageLoop ?>
+									<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+									<? ENDLOOP ?>
+								<? ENDLOOP ?>
+							</li>
+				<? IF GlobalModLoop ?>
+					<li class="">Global Module</li>
+						<? LOOP GlobalModLoop SORTASC=ModName ?>
+							<? LOOP SubPageLoop ?>
+								<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+						<? ENDLOOP ?>
+				<? ENDLOOP ?>
+				<? ELSE ?>
+					<? BREAK ?>
+				<? ENDIF ?>
+								</li>
+							</ul>
+					</li>
+				<? ENDIF ?>
+
+			 	<? IF LoggedIn ?>
+				<li>
+					<a data-toggle="collapse" href="#help" class="collapsed"><i class="fa fa-info-circle"></i> Help <b class="caret"></b></a>
+						<ul id="help" class="menu-submenu list-unstyled collapse">
+							<li><a href="http://wiki.znc.in/FAQ" target="_blank">FAQ</a></li>
+							<li><a href="http://wiki.znc.in/Modules" target="_blank">Modules</a></li>
+							<li><a href="http://docs.znc.in" target="_blank">Documentation</a></li>
+							<li><a href="http://wiki.znc.in/Using_commands" target="_blank">Using Commands</a></li>
+							<li><a href="http://wiki.znc.in/Connecting_to_ZNC" target="_blank">Connecting to ZNC</a></li>
+						</ul>
+				</li>
+				<? ENDIF ?>
+
+				<? IF LoggedIn ?>
+					<li>
+							<a data-toggle="collapse" href="#session" class="collapsed"><i class="fa fa-user"></i> <? VAR SessionUser ?> <b class="caret"></b></a>
+																	<ul id="session" class="menu-submenu list-unstyled collapse">
+                                        <li><p><strong>User: <? VAR SessionUser ?></strong></p></li>
+                                        <li><p>IP Address: <? VAR SessionIP ?></p></li>
+                                        <li><a href="<? IF GlobalModLoop ?>/mods/global/webadmin/edituser<? ELSE ?>/mods/user/webadmin/edituser<? ENDIF ?>" class="btn btn-primary btn-block btn-sm"><i class="fa fa-wrench"></i> Edit Settings</a></li>
+                        								<li class="divider"></li>
+                        								<li><a href="/logout" class="btn btn-danger btn-block"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+                    </ul>
+					</li>
+				<? ENDIF ?>
+				</ul>
+			</div>
+<? ENDIF ?>

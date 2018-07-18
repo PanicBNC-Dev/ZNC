@@ -1,15 +1,21 @@
-<? I18N znc ?>
-<div id="menu">
-	<ul class="nav">
-		<li class="topitem<? IF !ModName && PageName == "index" ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?>/"><? FORMAT "Home" ?></a></li>
+<div class="container">
+    <div class="row-fluid">
+        <div class="span3">
+            <aside>
+                <nav>
+                    <ul class="nav">
+		<li class="topitem<? IF !ModName && PageName == "index" ?> active<? ENDIF ?>"><a href="/"><i class="icon-home icon-white"></i> Home</a></li>
+		<li class="topitem"><a href="https://Chat.PanicBNC.net/" target='_blank'><i class="icon-comment icon-white"></i> Webchat</a></li>
+		<li class="topitem"><a href="https://PanicBNCStat.us/" target='_blank'><i class="icon-signal icon-white"></i> Status Site</a></li>
+</ul>
 
 		<? IF GlobalModLoop ?>
-			<li class="topitem parent"><span class="title"><? FORMAT "Global Modules" ?></span>
-				<ul>
+<center><b><font color="white">Global Modules</font></b></center>
+                    <ul class="nav">
 				<? LOOP GlobalModLoop SORTASC=ModName ?>
-					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?>"><? VAR Title ?></a></li>
+					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?>"><i class="icon-<? VAR Title ?> icon-white"></i><? VAR Title ?></a></li>
 					<? LOOP SubPageLoop ?>
-						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><i class="icon-<? VAR Title ?> icon-white"></i><? VAR Title ?></a></li>
 					<? ENDLOOP ?>
 				<? ENDLOOP ?>
 				</ul>
@@ -17,12 +23,12 @@
 		<? ENDIF ?>
 
 		<? IF UserModLoop ?>
-			<li class="topitem parent"><span class="title"><? FORMAT "User Modules" ?></span>
-				<ul>
+			<center><b><font color="white">User Modules</font></b></center>
+                    <ul class="nav">
 				<? LOOP UserModLoop SORTASC=ModName ?>
-					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?>"><? VAR Title ?></a></li>
+					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?>"><i class="icon-<? VAR Title ?> icon-white"></i><? VAR Title ?></a></li>
 					<? LOOP SubPageLoop ?>
-						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><i class="icon-<? VAR Title ?> icon-white"></i><? VAR Title ?></a></li>
 					<? ENDLOOP ?>
 				<? ENDLOOP ?>
 				</ul>
@@ -32,12 +38,12 @@
 		<? IF NetworkModLoop ?>
 			<? LOOP NetworkModLoop SORTASC=NetworkName ?>
 				<? IF ModLoop ?>
-					<li class="topitem parent"><span class="title"><? FORMAT "Network Modules ({1})" NetworkName ?></span>
-						<ul>
+					<center><b><font color="white">Network Modules (<? VAR NetworkName ?>)</font></b></center>
+                    <ul class="nav">
 						<? LOOP ModLoop SORTASC=ModName ?>
-							<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?>"><? VAR Title ?></a></li>
+							<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?>"><i class="icon-<? VAR Title ?> icon-white"></i><? VAR Title ?></a></li>
 							<? LOOP SubPageLoop ?>
-								<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+								<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><i class="icon-<? VAR Title ?> icon-white"></i><? VAR Title ?></a></li>
 							<? ENDLOOP ?>
 						<? ENDLOOP ?>
 						</ul>
@@ -45,5 +51,7 @@
 				<? ENDIF ?>
 			<? ENDLOOP ?>
 		<? ENDIF ?>
-	</ul>
-</div>
+   </ul>
+                </nav>
+            </aside>
+        </div>

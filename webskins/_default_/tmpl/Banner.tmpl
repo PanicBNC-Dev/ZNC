@@ -1,1 +1,4 @@
-<div id="banner_top"><h1><a href="<? VAR URIPrefix TOP ?>/">ZNC</a></h1></div>
+<? IF !ModName && PageName == "index" ?>
+<h3 class="text-muted page-title">PanicBNC Web Panel</h3>
+<h5 class="text-muted page-title"><span class="user_name"><? VAR SessionUser DEFAULT="Anonymous" ?></span> via <a href="https://www.projecthoneypot.org/ip_<? VAR SessionIP ?>" target="_blank"><? VAR SessionIP ?></a></h5>
+<? ENDIF ?>

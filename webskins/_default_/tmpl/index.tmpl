@@ -1,18 +1,14 @@
-<? I18N znc ?>
 <? INC Header.tmpl ?>
+		<?IF LoggedIn ?>
+<h2 class="page-header no-margin-top">Welcome To PanicBNC</h2>
+<p class="lead">Here, you can change some settings in your bouncer (Your Settings). If you have any questions or need support, join #PanicBNC on irc.esper.net.</p>
 
-<div class="textsection">
+<p class="lead">Please read our Tems of Service https://PanicBNC.net/ToS to help avoid from being removed for breaching them.</p>
 
-	<p><? FORMAT "Welcome to ZNC's web interface!" ?></p>
-
-	<?IF LoggedIn ?>
 		<?IF !GlobalModLoop ?>
 			<?IF !UserModLoop ?>
-				<p><? FORMAT "No Web-enabled modules have been loaded. Load modules from IRC (“<code>/msg *status help</code>” and “<code>/msg *status loadmod &lt;module&gt;</code>”). Once you have loaded some Web-enabled modules, the menu will expand." ?></p>
+				<p>Oppss! No Web-enabled modules have been loaded. Load modules from IRC ("<code>/msg *status help</code>" and "<code>/msg *status loadmod &lt;module&gt;</code>"). Once you have loaded some Web-enabled modules, the menu will expand.</p>
 			<? ENDIF ?>
 		<? ENDIF ?>
 	<? ENDIF ?>
-
-</div>
-
 <? INC Footer.tmpl ?>
