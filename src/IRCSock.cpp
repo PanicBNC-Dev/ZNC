@@ -156,7 +156,8 @@ void CIRCSock::Quit(const CString& sQuitMsg) {
 void CIRCSock::ReadLine(const CString& sData) {
     CString sLine = sData;
 
-    sLine.TrimRight("\n\r");
+    sLine.Replace("\n", "");
+    sLine.Replace("\r", "");
 
     DEBUG("(" << m_pNetwork->GetUser()->GetUserName() << "/"
               << m_pNetwork->GetName() << ") IRC -> ZNC [" << sLine << "]");
@@ -730,7 +731,7 @@ bool CIRCSock::OnNumericMessage(CNumericMessage& Message) {
             CString sPort = Message.GetParam(2);
             CString sInfo = Message.GetParam(3);
             m_pNetwork->PutStatus(
-                t_f("Server {1} redirects us to {2}:{3} with reason: {3}")(
+                t_f("Server {1} redirects us to {2}:{3} with reason: {4}")(
                     m_pNetwork->GetCurrentServer()->GetString(false), sHost,
                     sPort, sInfo));
             m_pNetwork->PutStatus(
@@ -761,7 +762,7 @@ bool CIRCSock::OnNumericMessage(CNumericMessage& Message) {
             CChan* pChan = m_pNetwork->FindChan(Message.GetParam(1));
 
             if (pChan) {
-                pChan->SetModes(Message.GetParams(2));
+                pChan->SetModes(Message.GetParamsColon(2));
 
                 // We don't SetModeKnown(true) here,
                 // because a 329 will follow

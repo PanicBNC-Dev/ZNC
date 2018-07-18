@@ -15,8 +15,8 @@
 #
 
 cmake_minimum_required(VERSION 3.1)
-project(ZNC VERSION 1.7.0)
-set(ZNC_VERSION 1.7.0)
+project(ZNC VERSION 1.7.1)
+set(ZNC_VERSION 1.7.1)
 set(append_git_version false)
 set(alpha_version "") # e.g. "-rc1"
 set(VERSION_EXTRA "" CACHE STRING
@@ -192,7 +192,7 @@ if(Boost_LOCALE_FOUND AND GETTEXT_MSGFMT_EXECUTABLE)
 	set(HAVE_I18N true)
 else()
 	set(HAVE_I18N false)
-	message(STATUS "Boost.Locale is not found, disabling i18n support")
+	message(STATUS "Boost.Locale or gettext (msgfmt) is not found, disabling i18n support")
 endif()
 
 if(HAVE_I18N AND GETTEXT_MSGMERGE_EXECUTABLE)
@@ -242,8 +242,20 @@ endif()
 file(GLOB csocket_files LIST_DIRECTORIES FALSE
 	"${PROJECT_SOURCE_DIR}/third_party/Csocket/Csocket.*")
 if(csocket_files STREQUAL "")
-	message(FATAL_ERROR " It looks like git submodules are not initialized.\n"
-		" Run: git submodule update --init --recursive")
+	execute_process(COMMAND git status
+		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+		RESULT_VARIABLE git_status_var
+		OUTPUT_QUIET
+		ERROR_QUIET)
+	if(git_status_var)
+		message(FATAL_ERROR
+			" It looks like git submodules are not initialized.\n"
+			" Either this is not a git clone, or you don't have git installed")
+	else()
+		message(FATAL_ERROR
+			" It looks like git submodules are not initialized.\n"
+			" Run: git submodule update --init --recursive")
+	endif()
 endif()
 
 install(DIRECTORY webskins
