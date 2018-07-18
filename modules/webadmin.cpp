@@ -357,12 +357,15 @@ class CWebAdminMod : public CModule {
                 WebSock.GetParam("denysetbindhost").ToBool());
             pNewUser->SetAuthOnlyViaModule(
                 WebSock.GetParam("authonlyviamodule").ToBool());
+            pNewUser->SetPremium(
+                WebSock.GetParam("premium").ToBool());
             sArg = WebSock.GetParam("maxnetworks");
             if (!sArg.empty()) pNewUser->SetMaxNetworks(sArg.ToUInt());
         } else if (pUser) {
             pNewUser->SetDenyLoadMod(pUser->DenyLoadMod());
             pNewUser->SetDenySetBindHost(pUser->DenySetBindHost());
             pNewUser->SetAuthOnlyViaModule(pUser->AuthOnlyViaModule());
+            pNewUser->SetPremium(pUser->IsPremium());
             pNewUser->SetMaxNetworks(pUser->MaxNetworks());
         }
 
@@ -1595,6 +1598,13 @@ class CWebAdminMod : public CModule {
                 t_s("Automatically Clear Query Buffer After Playback");
             if (pUser->AutoClearQueryBuffer()) {
                 o12["Checked"] = "true";
+            }
+
+            CTemplate& o13 = Tmpl.AddRow("OptionLoop");
+            o13["Name"] = "premium";
+            o13["DisplayName"] = t_s("Premium");
+            if (pUser->IsPremium()) {
+                o13["Checked"] = "true";
             }
 
             FOR_EACH_MODULE(i, pUser) {
