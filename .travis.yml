@@ -32,7 +32,3 @@ install:
 
 script:
       - make VERBOSE=1 inttest
-
-notification:
-      email:
-            - chris@christyrrel.me
