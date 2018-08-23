@@ -27,6 +27,8 @@ class CPanicBNCMod : public CModule {
             AddHelpCommand();
             AddCommand("ListAllUserNetworks", "", "Lists all user networks.",
                         [=](const CString& sLine) { ListAllUserNetworks(sLine); });
+            AddCommand("ListAllQueuedNetworks", "", "Counts and returns all queued connections.",
+                        [=](const CString& sLine) { ListAllQueuedNetworks(sLine); });
         }
 
         void ListAllUserNetworks(const CString& sLine) {
@@ -42,6 +44,24 @@ class CPanicBNCMod : public CModule {
                     + pNetwork->GetIRCServer() + " " + pNetwork->GetIRCNick().GetNickMask() + " " + pNetwork->GetBindHost()); 
                 }
             }            
+        }
+
+        void ListAllQueuedNetworks(const CString& sLine) {
+            if (!GetUser()->IsAdmin()) {
+                PutModule("Access denied!");
+                return
+            }
+
+            const map<CString, CUser*>& msUsers = CZNC::Get().GetUserMap();
+            for (const auto& it : msUsers) {
+                const vector<CIRCNetwork*>& vNetworks = it.second->GetNetworks();
+                for (const CIRCNetwork* pNetwork : vNetworks) {
+                    CIRCSock* pIRCSock = pNetwork->GetIRCSock();
+                    if (pIRCSock && !pIRCSock->IsConnected()) {
+                        PutModNotice("LAQN " + it.first + "/" + pNetwork->GetName());
+                    }
+                }
+            }
         }
 };
 
