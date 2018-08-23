@@ -50,7 +50,7 @@ class CPanicBNCMod : public CModule {
         void ListAllQueuedNetworks(const CString& sLine) {
             if (!GetUser()->IsAdmin()) {
                 PutModule("Access denied!");
-                return
+                return;
             }
 
             const map<CString, CUser*>& msUsers = CZNC::Get().GetUserMap();
