@@ -17,6 +17,7 @@
 #include <znc/Modules.h>
 #include <znc/IRCNetwork.h>
 #include <znc/User.h>
+#include <znc/IRCSock.h>
 
 using std::map;
 using std::vector;
