@@ -57,7 +57,7 @@ class CPanicBNCMod : public CModule {
             for (const auto& it : msUsers) {
                 const vector<CIRCNetwork*>& vNetworks = it.second->GetNetworks();
                 for (const CIRCNetwork* pNetwork : vNetworks) {
-                    CIRCSock* pIRCSock = pNetwork->GetIRCSock();
+                    const CIRCSock* pIRCSock = pNetwork->GetIRCSock();
                     if (pIRCSock && !pIRCSock->IsConnected()) {
                         PutModNotice("LAQN " + it.first + "/" + pNetwork->GetName());
                     }
