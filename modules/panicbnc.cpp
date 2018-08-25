@@ -27,6 +27,8 @@ class CPanicBNCMod : public CModule {
             AddHelpCommand();
             AddCommand("ListAllUserNetworks", "", "Lists all user networks.",
                         [=](const CString& sLine) { ListAllUserNetworks(sLine); });
+            AddCommand("ViewConnectionInfo", "", "View connection details for a user.",
+                        [=](const CString& sLine) { ViewConnectionInfo(sLine); });
         }
 
         void ListAllUserNetworks(const CString& sLine) {
@@ -38,10 +40,48 @@ class CPanicBNCMod : public CModule {
             for (const auto& it : msUsers) {
                 const vector<CIRCNetwork*>& vNetworks = it.second->GetNetworks();
                 for (const CIRCNetwork* pNetwork : vNetworks) {
-                    PutModNotice("LAUN " + it.first + " " + pNetwork->GetName() + " " +  CString(pNetwork->IsIRCConnected()) + " "
-                    + pNetwork->GetIRCServer() + " " + pNetwork->GetIRCNick().GetNickMask() + " " + pNetwork->GetBindHost()); 
+                    if (pNetwork->IsIRCConnected()) {
+                        PutModNotice("LAUN " + it.first + " " + pNetwork->GetName() + " Yes " +
+                                    pNetwork->GetBindHost() + " " +pNetwork->GetIRCServer() + 
+                                    pNetwork->GetIRCNick().GetNickMask());
+                    } else {
+                        PutModNotice("LAUN " + it.first + " " + pNetwork->GetName() + " No " +
+                                    pNetwork->GetBindHost());
+                    } 
                 }
             }            
+        }
+
+        void ViewConnectionInfo(const CString& sLine) {
+            if (!GetUser()->IsAdmin()) {
+                PutModule("Access denied!");
+                return;
+            }
+
+            const CString sUsername = sLine.Token(1);
+
+            if (sUsername.empty()) {
+                PutModNotice("Usage: ViewConnectionInfo <username>");
+                return;
+            }
+
+            CUser* pUser = CZNC::Get().FindUser(sUsername);
+            if (!pUser) {
+                PutModNotice("Error: User [" + sUsername + "] does not exist!");
+                return;
+            }
+
+            const vector<CIRCNetwork*>& vNetworks = pUser->GetNetworks();
+            for (const CIRCNetwork* pNetwork : vNetworks) {
+                if (pNetwork->IsIRCConnected()) {
+                    PutModNotice("VCI " + sUsername + " " + pNetwork->GetName() + " Yes " +
+                                pNetwork->GetBindHost() + " " +pNetwork->GetIRCServer() + 
+                                pNetwork->GetIRCNick().GetNickMask());
+                } else {
+                    PutModNotice("VCI " + sUsername + " " + pNetwork->GetName() + " No " +
+                                pNetwork->GetBindHost());
+                }
+            }
         }
 };
 
