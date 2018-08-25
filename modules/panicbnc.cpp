@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <znc/Server.h>
 #include <znc/Modules.h>
 #include <znc/IRCNetwork.h>
 #include <znc/User.h>
@@ -25,10 +26,53 @@ class CPanicBNCMod : public CModule {
     public:
         MODCONSTRUCTOR(CPanicBNCMod) {
             AddHelpCommand();
+            AddCommand("ListServers", "<username> <network>", "Lists the servers "
+                        "setup on a network.", 
+                        [=](const CString& sLine) { ListServers(sLine); });
             AddCommand("ListAllUserNetworks", "", "Lists all user networks.",
                         [=](const CString& sLine) { ListAllUserNetworks(sLine); });
-            AddCommand("ViewConnectionInfo", "", "View connection details for a user.",
+            AddCommand("ViewConnectionInfo", "<username>", "View connection details for a user.",
                         [=](const CString& sLine) { ViewConnectionInfo(sLine); });
+        }
+
+        void ListServers(const CString& sLine) {
+            if (!GetUser()->IsAdmin()) {
+                PutModule("Access denied!");
+                return;
+            }
+
+            const CString sUsername = sLine.Token(1);
+            const CString sNetwork = sLine.Token(2);
+            if (sNetwork.empty()) {
+                PutModNotice("Usage: ListServers <username> <network>");
+                return;
+            }
+
+            CUser* pUser = CZNC::Get().FindUser(sUsername);
+            if (!pUser) {
+                PutModNotice("Error: User [" + sUsername + "] does not exist!");
+                return;
+            }
+
+            CIRCNetwork* pNetwork = pUser->FindNetwork(sNetwork);
+            if (!pNetwork) {
+                PutModNotice("Error: User [" + sUsername + "] does not have a "
+                            "network named [" + sNetwork + "]");
+                return;
+            }
+
+            VCString vsNames;
+            const vector<CServer*>& vServers = pNetwork->GetServers();
+            CServer* pCurServ = pNetwork->GetCurrentServer();
+            if (pNetwork->HasServers()) {
+                for (const CServer* pServer : vServers) {
+                    vsNames.push_back(pServer->GetName() + ":" + (pServer->IsSSL() ? "+" : "") +
+                                    CString(pServer->GetPort()));
+                }
+                PutModNotice("LS " + CString(" ").Join(vsNames.begin(), vsNames.end()));
+            } else {
+                PutModNotice("LS N/A");
+            }
         }
 
         void ListAllUserNetworks(const CString& sLine) {
