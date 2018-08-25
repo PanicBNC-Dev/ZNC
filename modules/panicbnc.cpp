@@ -53,16 +53,18 @@ class CPanicBNCMod : public CModule {
                 return;
             }
 
+            VCString vsNames;            
             const map<CString, CUser*>& msUsers = CZNC::Get().GetUserMap();
             for (const auto& it : msUsers) {
                 const vector<CIRCNetwork*>& vNetworks = it.second->GetNetworks();
                 for (const CIRCNetwork* pNetwork : vNetworks) {
                     const CIRCSock* pIRCSock = pNetwork->GetIRCSock();
                     if (pIRCSock && !pIRCSock->IsConnected()) {
-                        PutModNotice("LAQN " + it.first + "/" + pNetwork->GetName());
+                        vsNames.push_back(it.first + "/" + pNetwork->GetName());
                     }
                 }
             }
+            PutModNotice("LAQN " + CString(" ").Join(vsNames.begin(), vsNames.end()));
         }
 };
 
